@@ -1,0 +1,149 @@
+=<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Food Wastage</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f4c3, #c8e6c9);
+        }
+
+        header {
+            background: linear-gradient(135deg, #66b669, #b1b67c);
+            color: rgb(4, 20, 9);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        main {
+            padding: 120px;
+        }
+
+        .content-placeholder {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .statistics {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between statistics */
+        }
+
+        .statistic {
+            background-color: #e8f5e9;
+            border-left: 5px solid #66b669; /* Green accent */
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s; /* Smooth hover effect */
+        }
+
+        .statistic:hover {
+            transform: scale(1.02); /* Slight zoom effect on hover */
+        }
+
+        h2 {
+            color: #011f02; /* Darker green for headings */
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding-left: 0; /* Remove default padding */
+        }
+
+        ul li {
+            margin-bottom: 10px; /* Space between list items */
+        }
+
+        .call-to-action {
+            background: linear-gradient(135deg, #66b669, #b1b67c);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .call-to-action h2 {
+            margin-top: 0;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background-color: #093108;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color:green;
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Statistics</h1>
+    </header>
+
+    <main>
+        <!-- Updated Content Section -->
+        <section class="content-placeholder">
+            <h2>Global Food Wastage and Requirements Statistics</h2>
+            
+            <div class="statistics">
+                <div class="statistic">
+                    <strong>1.05 billion metric tons</strong> of food are wasted globally each year.
+                </div>
+                <div class="statistic">
+                    Households account for approximately <strong>631 million metric tons</strong>, or <strong>60%</strong> of total food waste.
+                </div>
+                <div class="statistic">
+                    About <strong>13%</strong> of food is lost during the supply chain before reaching consumers.
+                </div>
+                <div class="statistic">
+                    If just a quarter of the food currently lost or wasted were saved, it could feed around <strong>870 million people</strong> suffering from hunger globally.
+                </div>
+                <div class="statistic">
+                    The global population is projected to reach around <strong>9.1 billion</strong> by <strong>2050</strong>, requiring a <strong>70%</strong> increase in agricultural production.
+                </div>
+            </div>
+
+            <h3>Key References:</h3>
+            <ul>
+                <li><a href="https://www.biocycle.net/2024-food-waste-index/" target="_blank">UNEP 2024 Food Waste Index Report</a></li>
+                <li><a href="https://www.fao.org/in-action/seeking-end-to-loss-and-waste-of-food-along-production-chain/en/" target="_blank">FAO on Food Loss and Waste</a></li>
+                <li><a href="https://www.fao.org/hunger/en/" target="_blank">FAO Hunger Statistics</a></li>
+            </ul>
+        </section>
+
+        <!-- Call to Action for Contributions -->
+        <section class="call-to-action">
+            <h2>Your Contribution Matters!</h2>
+            <p>Together, we can make a difference. Learn more about our efforts:</p>
+            <a href="ourcontributions.php" class="button">Our Contribution to Society</a>
+        </section>
+    </main>
+
+</body>
+</html>

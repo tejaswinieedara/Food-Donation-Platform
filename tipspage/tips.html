@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reduce Food Waste - Tips</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f4c3, #c8e6c9);
+        }
+
+        header {
+            background: linear-gradient(135deg, #66b669, #b1b67c);
+            color: rgb(4, 20, 9);
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 98%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f4c3, #c8e6c9);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card {
+            width: 30%;
+            margin: 10px;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-front {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-front img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin: 10px;
+        }
+
+        .card-back {
+            background: #356e35;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotateY(180deg);
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #fcfdfd;
+            color: rgb(20, 1, 1);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Smart Tips to Reduce Food Waste</h1>
+    <p>Learn practical ways to minimize food waste at home!</p>
+</header>
+
+<div class="container">
+    <!-- Existing tip cards go here -->
+    <div class="container">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/storage.jpg" alt="Storage Tips">
+                    <h3>Proper Storage</h3>
+                </div>
+                <div class="card-back">
+                    <p>Store fruits and vegetables in the correct way to extend their shelf life.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/meal.jpg" alt="Meal Planning Tips">
+                    <h3>Meal Planning</h3>
+                </div>
+                <div class="card-back">
+                    <p>Plan your meals for the week to avoid over-purchasing.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/leftovers.jpg" alt="Leftover Tips">
+                    <h3>Creative Leftovers</h3>
+                </div>
+                <div class="card-back">
+                    <p>Use leftovers in new recipes to avoid waste.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/expiration.jpg" alt="Expiration Dates">
+                    <h3>Understand Expiration Dates</h3>
+                </div>
+                <div class="card-back">
+                    <p>Know the difference between sell by, best before, and use by dates.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/bulk.jpg" alt="Bulk Buying Tips">
+                    <h3>Buy in Bulk Wisely</h3>
+                </div>
+                <div class="card-back">
+                    <p>Only buy in bulk if you can use the items before they go bad.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/freezing.jpg" alt="Freezing Food">
+                    <h3>Use the Freezer</h3>
+                </div>
+                <div class="card-back">
+                    <p>Freeze leftovers or ingredients that you can’t use right away.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/pantry.jpg" alt="Check Pantry">
+                    <h3>Check Your Pantry Regularly</h3>
+                </div>
+                <div class="card-back">
+                    <p>Regularly check for items nearing their expiration date.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/portioncontrol.jpg" alt="Portion Control">
+                    <h3>Portion Control</h3>
+                </div>
+                <div class="card-back">
+                    <p>Serve smaller portions to avoid uneaten food on plates.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/composting.jpg" alt="Composting Food Scraps">
+                    <h3>Compost Food Scraps</h3>
+                </div>
+                <div class="card-back">
+                    <p>Composting can turn scraps into nutrient-rich soil.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/scraps.jpg" alt="Repurpose Food Scraps">
+                    <h3>Repurpose Food Scraps</h3>
+                </div>
+                <div class="card-back">
+                    <p>Use vegetable scraps to make broth or smoothies from overripe fruit.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/donatefood.jpg" alt="Donate Food">
+                    <h3>Donate Unused Food</h3>
+                </div>
+                <div class="card-back">
+                    <p>Consider donating excess non-perishable food items.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/foodpreservation.jpg" alt="Food Preservation">
+                    <h3>Educate Yourself on Food Preservation</h3>
+                </div>
+                <div class="card-back">
+                    <p>Learn techniques for preserving food, like pickling or canning.</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="../images/cookingwithfriends.jpg" alt="Cook with Friends">
+                    <h3>Cook with Friends or Family</h3>
+                </div>
+                <div class="card-back">
+                    <p>Organize cooking days to use up ingredients and share meals.</p>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+<footer>
+    <p>&copy; 2024 Reduce Food Waste Initiative</p>
+</footer>
+<script src="recipefinder.js"></script>
+
+</body>
+</html>

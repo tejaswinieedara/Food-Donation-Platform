@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class='container'>
+    <h2>Verify OTP</h2>
+    <form id='verifyOtpForm'>
+        <input type='text' id='otpInput' placeholder='Enter the OTP' required />
+        <button type='submit'>Verify OTP</button>
+        <p id='otpResponseMessage'></p>
+    </form>
+
+    <p>Didn't receive the OTP? <a href="#" id="resendOtp">Resend OTP</a></p>
+</div>
+
+<script>
+// Handle form submission for verifying the OTP.
+document.getElementById('verifyOtpForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    const enteredOtp = document.getElementById('otpInput').value;
+    const storedOtp = sessionStorage.getItem('otpCode'); // Retrieve stored OTP
+    const userEmail = sessionStorage.getItem('userEmail'); // Retrieve user email
+
+    if (enteredOtp === storedOtp) {
+        alert("OTP verified successfully!");
+        
+        // Set user email in session storage (or you can use PHP sessions)
+        window.location.href = 'change_password.html'; // Redirect to change password page
+    } else {
+        document.getElementById('otpResponseMessage').innerText = 'Invalid OTP. Please try again.';
+    }
+});
+
+// Handle resend OTP functionality
+document.getElementById('resendOtp').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    const email = sessionStorage.getItem('userEmail');
+    
+    if (email) {
+        const otpCode = Math.floor(100000 + Math.random() * 900000); // Generate new OTP
+
+        const templateParams = {
+            user_email: email,
+            otp_code: otpCode,
+        };
+
+        emailjs.send('miniproject387', 'template_adnd3vv', templateParams)
+            .then(function(response) {
+                console.log('OTP resent successfully!', response.status);
+                alert("New OTP sent to your email!");
+                sessionStorage.setItem('otpCode', otpCode); // Update stored OTP
+            }, function(error) {
+                console.log('Error sending OTP:', error);
+                alert("Error resending OTP.");
+            });
+    }
+});
+</script>
+
+</body>
+</html>

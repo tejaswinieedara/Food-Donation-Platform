@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Donors | SustainFeed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="donars.css">
+</head>
+<body>
+<div class="card-stack" id="cardStack">
+   <!-- Cards will be generated here by JavaScript -->
+</div>
+
+<div class="no-data-message" id="noDataMessage" style="display:none;">
+   <h3>There are currently no available donations.</h3>
+</div>
+
+<script>
+   let currentCard = 0;
+
+   function displayCard(index) {
+       const cards = document.querySelectorAll('.card');
+       cards.forEach((card, i) => {
+           card.style.transform = `translateX(${(i - index) * 100}%)`;
+       });
+   }
+
+   // Function to show contact info
+   function showContact(index) {
+       const contactInfo = document.getElementById(`contactInfo${index}`);
+       
+       if (contactInfo.style.display === 'none' || !contactInfo.style.display) {
+           contactInfo.style.display = 'block'; // Show contact info
+       } else {
+           contactInfo.style.display = 'none'; // Hide contact info
+       }
+   }
+
+   // Fetch donation data from backend
+   fetch('bookdonars.php')
+       .then(response => response.json())
+       .then(data => {
+           const cardStack = document.getElementById('cardStack');
+           
+           if (data.message) { 
+               document.getElementById('noDataMessage').textContent = data.message; // Show no data message
+               document.getElementById('noDataMessage').style.display = 'block';
+               return; // Exit if no data is available
+           }
+
+           if (!Array.isArray(data)) {
+               console.error('Expected an array but received:', data);
+               return; // Exit if the data is not in the expected format
+           }
+
+           // Process each donation and create cards
+           data.forEach((donation, index) => {
+               const card = document.createElement('div');
+               card.classList.add('card');
+               
+               card.innerHTML = `
+                   <h3>Available Book Donar </h3>
+                   <p><strong>Condition of Books:</strong> ${donation.donationCondition}</p>
+                   <p><strong>Available Until:</strong> ${new Date(donation.donationUntil).toLocaleDateString()}</p>
+                   <p><strong>Location:</strong> ${donation.donationLocation || 'Not specified'}</p>
+                   <p><strong>Delivery/Pickup Method:</strong> ${donation.delivery_pickup}</p>
+                   <p><strong>Subject Categories:</strong> ${donation.subjectCategories || 'None'}</p>
+                   <p><strong>Book Types:</strong></p>
+                   <ul>
+                       ${donation.bookTypes.split(', ').map((type, i) => `<li>${type} - Quantity: ${donation.quantities.split(', ')[i]} - Author(s): ${donation.authorNames.split(', ')[i]}</li>`).join('')}
+                   </ul>
+                   <button class="button" onclick="showContact(${index})">Contact</button>
+                   <div class="contact-info" id="contactInfo${index}">
+                       <p><strong>Name:</strong> ${donation.contactName}</p>
+                       <p><strong>Phone:</strong> ${donation.contactNumber}</p>
+                       <p><strong>Email:</strong> ${donation.contactEmail || 'Not provided'}</p>
+                   </div>
+               `;
+
+               cardStack.appendChild(card);
+               displayCard(currentCard); // Display the first card initially
+               currentCard++; // Increment current card index
+           });
+       })
+       .catch(error => console.error('Error fetching donation data:', error));
+
+   // Swipe to next card on click
+   document.querySelector('.card-stack').addEventListener('click', () => {
+       const cards = document.querySelectorAll('.card');
+       if (cards.length > 0) { // Only swipe if there are cards present
+           currentCard = (currentCard + 1) % cards.length; // Loop back to first card
+           displayCard(currentCard);
+       }
+   });
+</script>
+
+</body>
+</html>

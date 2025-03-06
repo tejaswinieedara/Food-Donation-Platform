@@ -1,0 +1,214 @@
+/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #c8e6c9, #f0f4c3); /* Light gradient background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.title-section h1 {
+    font-size: 40px;
+    margin: 0;
+    font-weight: 700;
+    background: linear-gradient(to right, #388E3C, #81C784);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Form/Selection Section */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better contrast */
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px; /* Increased blur for modern look */
+}
+
+.container h2 {
+    color: #2E7D32;
+    text-align: center;
+}
+/* Button Styles */
+.selection-button {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform transition */
+}
+
+.selection-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+/* Input Styles */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4CAF50; /* Label color */
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px; /* Rounded corners */
+    border: 1px solid #4CAF50; /* Green border */
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+select:hover,
+textarea:hover {
+   border-color:#81C784; /* Change border color on focus */
+   box-shadow : inset -1px -1px rgba(255,255,255,.5), inset -2px -2px rgba(255,255,255,.5); /* Inner shadow effect */
+   transition : all .3s ease; /* Smooth transition for border color */
+}
+
+/* Button Styles for Submit */
+.submit-button {
+   width: calc(100% - 20px);
+   padding :15 px ; 
+   border:none; 
+   border-radius :20 px ; 
+   font-size :18 px ; 
+   color:white; 
+   background-image :linear-gradient(45deg,#4CAF50,#81C784); 
+   cursor:pointer; 
+   transition :all .4s ease; 
+   box-shadow :0 4 px rgba(0,0,0,.2); 
+}
+
+.submit-button:hover {
+   transform :translateY(-5 px);
+   box-shadow :0 6 px rgba(0,0,0,.3); 
+}
+
+/* Additional Info Section */
+.additional-info {
+   margin-top :30 px ; 
+   text-align:center; 
+   font-size :18 px ; 
+}
+
+.additional-info a {
+   color:#4CAF50; 
+   text-decoration :underline; 
+   cursor:pointer; 
+}
+
+/* Responsive Design */
+@media (max-width :768 px) {
+   .title-section h1 {
+       font-size :30 px ;
+   }
+
+   .submit-button , .selection-button {
+       font-size :16 px ;
+   }
+}
+
+/* Style for checkbox options */
+.checkbox-group label {
+   color:#2e2c2c; /* Change this color to whatever you prefer */
+   font-weight:bold; 
+   display:inline-block; 
+   margin-bottom :10 px ; 
+}
+
+/* Style for Additional Notes section with increased width */
+#additional-notes textarea {
+   width :70%; /* You can adjust this value to increase the width */
+   height :100 px ; /* Adjust height as needed */
+   padding :10 px ;
+   border :1 px solid #ccc ;
+   border-radius :5 px ;
+   resize :vertical; 
+}
+
+/* Contact email group styles */
+.contact-email-group {
+   display:flex; 
+   justify-content :space-between; 
+}
+
+.contact-email-group div {
+   flex :1; /* Make each field take equal space */ 
+}
+
+.contact-email-group label {
+   display:block; /* Ensure labels are above inputs */ 
+}
+
+.contact-email-group input {
+   width :100%; /* Make inputs fill the container */ 
+}
+/* Button Styles for Selection and Submit */
+.selection-button, .submit-button {
+    width: calc(100% - 20px);
+    padding: 15px;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    background-image: linear-gradient(45deg, #4CAF50, #81C784);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative; /* For the animation */
+    overflow: hidden; /* Hide overflow for the ripple effect */
+}
+
+.selection-button:hover, .submit-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.selection-button::before, .submit-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.3); /* Ripple effect */
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease; /* Smooth transition for ripple */
+    z-index: 0; /* Under the text */
+}
+
+.selection-button:hover::before, .submit-button:hover::before {
+    transform: translate(-50%, -50%) scale(1); /* Expand ripple */
+}
+
+.selection-button span, .submit-button span {
+    position: relative; /* On top of the ripple */
+    z-index: 1; /* On top of the ripple */
+}

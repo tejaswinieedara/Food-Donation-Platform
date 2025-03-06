@@ -1,0 +1,106 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    color: #333;
+}
+
+.header p {
+    color: #666;
+}
+
+.toggle-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.toggle-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-button.active {
+    background-color: #0056b3; /* Darker blue when active */
+}
+
+.toggle-button:hover {
+    transform: scale(1.05);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.donor-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added transition */
+}
+
+.donor-card:hover {
+   transform: translateY(-5px); /* Lift effect on hover */
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+.donor-name {
+   font-size: 1.5em;
+   font-weight: bold;
+   color: #007bff; /* Blue color for names */
+}
+
+.donor-info {
+   margin-bottom: 10px;
+   color: #555; /* Darker gray for text */
+}
+
+.footer {
+   text-align: center;
+   margin-top: 40px;
+   padding-top: 20px; /* Added padding */
+   background-color: #007bff; /* Footer background color */
+   color: white; /* Footer text color */
+   padding-bottom: 20px; /* Added bottom padding */
+}
+
+.donate-button {
+   background-color: #28a745; /* Green */
+   color: white;
+   padding: 10px 15px;
+   border-radius: 5px;
+}
+
+/* Spinner styles */
+.spinner {
+   border-radius: 50%;
+   border-top: 8px solid #3498db; /* Blue color for spinner */
+   border-right: 8px solid transparent;
+   border-bottom: 8px solid transparent;
+   border-left: 8px solid transparent;
+   width: 50px; 
+   height: 50px; 
+   animation: spin .6s linear infinite; 
+   margin-left:auto; 
+   margin-right:auto; 
+}
+@keyframes spin {
+   from { transform: rotate(0deg); }
+   to { transform: rotate(360deg); }
+}

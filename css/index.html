@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa; /* Light blue background */
+            font-family: 'Arial', sans-serif; /* Font style */
+        }
+        .popup {
+            text-align: center;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+        }
+        .logo {
+            width: 120px; /* Adjust logo size */
+            height: auto;
+            margin-bottom: 20px; /* Space below the logo */
+        }
+        h1 {
+            color: #00796b; /* Dark teal color for the title */
+            font-size: 2.5em; /* Larger font size */
+            margin: 0; /* Remove default margin */
+            animation: slideIn 1s ease-in-out; /* Slide-in animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup" id="popup">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image path -->
+        <h1>MAGICAL BIKE SPARE PARTS SHOP</h1>
+    </div>
+
+    <script>
+        // Show the popup for 5 seconds
+        setTimeout(function() {
+            // Redirect to home.html
+            window.location.href = 'home.html';
+        }, 5000);
+    </script>
+</body>
+</html>

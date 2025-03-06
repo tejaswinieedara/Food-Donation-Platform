@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="email" id="email" placeholder="Email Address" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+            <button type="submit">Register</button>
+        </form>
+        <p id="responseMessage"></p>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script>
+        // Initialize EmailJS with your public key
+        (function(){
+            emailjs.init("X5UqSa1oF_VKwm4fl"); // Your Public Key
+        })();
+
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate password
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById('responseMessage').innerText = 'Password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and symbols.';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('responseMessage').innerText = 'Passwords do not match.';
+                return;
+            }
+
+            // Generate OTP
+            const otpCode = Math.floor(100000 + Math.random() * 900000); // Generate OTP
+            const templateParams = {
+                username: username,
+                user_email: email,
+                otp_code: otpCode
+            };
+
+            // Send OTP to email
+            emailjs.send('miniproject387', 'template_ceqfsof', templateParams)
+                .then(function(response) {
+                    // Save user data in the database
+                    fetch('register.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, email, password, otpCode })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('responseMessage').innerText = 'Registration successful! Please check your email for verification.';
+                        } else {
+                            document.getElementById('responseMessage').innerText = data.message;
+                        }
+                    });
+                }, function(error) {
+                    document.getElementById('responseMessage').innerText = 'Error sending OTP.';
+                    console.log('FAILED...', error);
+                });
+        });
+    </script>
+</body>
+</html>

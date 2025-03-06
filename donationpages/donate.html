@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Donation Form | SustainFeed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../css/doantionpages.css">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50; 
+            color: white;
+            padding: 10px 15px; /* Smaller button */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .dynamic-section {
+            margin-top: 20px;
+        }
+        #map {
+            height: 300px; 
+        }
+        .sample-info {
+            font-size: smaller;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Food Donation Form</h1>
+<form id="donationForm" method="POST" action="donate.php">
+    <!-- User Name -->
+    <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+    <!-- Phone Number -->
+    <input type="tel" id="contactNumber" name="contactNumber" placeholder="Your Phone Number" required pattern="[0-9]{10}" title="Please enter a valid phone number.">
+
+    <!-- Email -->
+    <input type="email" id="email" name="email" placeholder="Your Email">
+
+    <!-- Table for Food Type and Quantity -->
+    <p>Food Details:</p>
+    <table id="foodDetailsTable">
+        <thead>
+            <tr>
+                <th>Food Type</th>
+                <th>Quantity (e.g., 1kg, 2l)</th>
+                <th>Expiry Date (optional)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="foodDetailsBody">
+            <tr>
+                <td><input type='text' name='foodType[]' placeholder='Food Type' required></td>
+                <td><input type='text' name='quantity[]' placeholder='Quantity (e.g., 1kg, 2l)' required></td>
+                <td><input type='date' name='expiryDate[]'></td>
+                <td><button type='button' onclick='removeRow(this)' style='font-size: smaller;'>Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Button to add more food details -->
+    <button type='button' onclick='addFoodDetail()'>Add Another Food Item</button>
+
+    <!-- Sample Information -->
+    <div class="sample-info">
+        Sample Entry Format:<br />
+        Food Type: Apples<br />
+        Quantity: 1kg<br />
+        Expiry Date: YYYY-MM-DD (optional)<br />
+    </div>
+
+    <!-- Registration Date -->
+    <p>Registration Date:</p>
+    <input type='date' id='registrationDate' name='registrationDate' disabled value="" required>
+
+    <!-- Donation Available Until -->
+<p>Donation Available Until:</p>
+<input type='date' id='donationUntil' name='donationUntil' required>
+
+    <!-- Pickup/Drop-off Location -->
+    <p>Pickup/Drop-off Location:</p>    
+    <input type='text' id='location' name='location' placeholder='Enter your location' required>
+
+   <!-- Map Display -->
+   <div id='map'></div>
+
+   <p>Preferred Delivery/Pickup Option:</p>
+   <select id='deliveryOption' name='deliveryOption'>
+       <option value="">Select an option</option>
+       <option value='dropoff'>I will drop off the items.</option>
+       <option value='pickup'>I need assistance with pickup.</option>
+   </select>
+
+   <!-- Additional Information -->
+   <textarea id='additionalInfo' name='additionalNotes' placeholder='Notes or Special Instructions'></textarea>
+
+   <!-- Donate Button -->
+   <button type='submit'>Donate</button>
+
+</form>
+<div >
+    <p>We are also accepting cloth and book donations. 
+       <a href='otherdonations.html' id='otherDonationsLink'>Click here to donate</a>.</p>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Fetch username from session
+    fetch('get_username.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.username) {
+            document.getElementById('name').value = data.username; // Populate the input field with username
+        }
+    });
+
+    // Set current date for registration
+    document.getElementById('registrationDate').value = new Date().toISOString().split('T')[0];
+
+    // Initialize Leaflet map
+    var map = L.map('map').setView([51.505, -0.09], 13); // Default location (London)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+    var marker = L.marker([51.505, -0.09]).addTo(map);
+
+    // Request user location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            map.setView([lat, lng], 13);
+            marker.setLatLng([lat, lng]);
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        document.getElementById('location').value = data.display_name;
+                    } else {
+                        document.getElementById('location').value = "Unable to retrieve address.";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error retrieving address:', error);
+                    document.getElementById('location').value = "Error retrieving address.";
+                });
+        }, function () {
+            alert("Unable to retrieve your location.");
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+
+    // Function to add another food detail row
+    function addFoodDetail() {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type='text' name='foodType[]' placeholder='Food Type' required></td>
+            <td><input type='text' name='quantity[]' placeholder='Quantity (e.g., 1kg, 2l)' required></td>
+            <td><input type='date' name='expiryDate[]'></td>
+            <td><button type='button' onclick='removeRow(this)' style='font-size: smaller;'>Remove</button></td>`;
+        document.getElementById('foodDetailsBody').appendChild(row);
+    }
+
+    // Function to remove a food detail row
+    function removeRow(button) {
+        const row = button.closest('tr');
+        row.parentNode.removeChild(row);
+    }
+
+    // Form submission handling
+    document.getElementById('donationForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Check if at least one food detail row is filled
+        const rows = document.querySelectorAll('#foodDetailsBody tr');
+        let isFilled = false;
+
+        rows.forEach(row => {
+            const foodType = row.querySelector('input[name^=foodType]').value.trim();
+            const quantity = row.querySelector('input[name^=quantity]').value.trim();
+
+            if (foodType && quantity) {
+                isFilled = true; // At least one row is filled
+            }
+        });
+
+        if (!isFilled) {
+            alert("Please fill out at least one food detail entry.");
+            return; // Stop form submission
+        }
+
+        const registrationDate = new Date(document.getElementById('registrationDate').value);
+        const donationUntilDate = new Date(document.getElementById('donationUntil').value); // Updated ID
+
+        if (donationUntilDate < registrationDate) {
+            alert("Donation available until date must be after or same as the registration date.");
+            return; // Stop form submission
+        }
+
+        const formData = new FormData(this);
+
+        fetch('donate.php', { // Ensure this points to your PHP processing script
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'thankyou.html'; // Redirect to thank you page
+            } else {
+                alert(data.message || "There was an error processing your donation.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred: " + error.message);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

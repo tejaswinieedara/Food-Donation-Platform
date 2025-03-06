@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Donation Form</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="../css/doantionpages.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50; 
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .dynamic-section {
+            margin-top: 20px;
+        }
+        .quantity-container {
+            margin-top: 10px;
+        }
+        #map {
+            height: 300px; 
+        }
+        .sample-info {
+            font-size: smaller;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Book Donation Form</h1>
+<form id="donationForm">
+    <input type="text" id="name" name="name" placeholder="Your Name" required>
+    <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required pattern="[0-9]{10}" title="Please enter a valid phone number.">
+    <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+    <p>Book Details:</p>
+    <div id="bookDetailsContainer">
+        <table id="bookDetailsTable">
+            <thead>
+                <tr>
+                    <th>Book Type</th>
+                    <th>Subject/Category</th>
+                    <th>Author Name</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="bookDetailsBody">
+                <tr>
+                    <td><input type='text' name='bookType[]' placeholder='Book Type' required></td>
+                    <td><input type='text' name='subject[]' placeholder='Subject/Category' required></td>
+                    <td><input type='text' name='author[]' placeholder='Author Name' required></td>
+                    <td><input type='number' name='quantity[]' placeholder='Quantity' min='1' required></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="addBookDetail()">Add Another Book</button>
+
+        <div class="sample-info">
+            Sample Entry Format:<br />
+            Book Type: Fiction<br />
+            Subject/Category: Literature<br />
+            Author Name: J.K. Rowling<br />
+            Quantity: 2
+        </div>
+    </div>
+
+    <p>Condition of Books:</p>
+    <label><input type='radio' name='condition' value='Like New' required> Like New</label><br />
+    <label><input type='radio' name='condition' value='Gently Used'> Gently Used</label><br />
+    <label><input type='radio' name='condition' value='Fair Condition'> Fair Condition</label>
+
+    <p>Registration Date:</p>
+    <input type='date' id='registrationDate' name='registrationDate' disabled>
+
+    <p>Donation Available Until:</p>
+    <input type='date' id='donationUntilDate' name='donationUntilDate' required>
+
+    <p>Pickup/Drop-off Location:</p>
+    
+    <input type='text' id='location' name='location' placeholder='Enter your location' required>
+
+   <div id='map'></div>
+
+   <p>Preferred Delivery/Pickup Option:</p>
+   <select id='deliveryOption' name='deliveryOption'>
+       <option value="">Select an option</option>
+       <option value='dropoff'>I will drop off the items.</option>
+       <option value='pickup'>I need assistance with pickup.</option>
+   </select>
+
+   <button type='submit'>Donate</button>
+
+</form>
+
+<script src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'></script>
+<script>
+// Fetch username from session
+fetch('get_username.php')
+.then(response => response.json())
+.then(data => {
+    if (data.username) {
+        document.getElementById('name').value = data.username; // Populate the input field with username
+    }
+});
+
+// Set current date for registration
+document.getElementById('registrationDate').value = new Date().toISOString().split('T')[0];
+
+// Initialize Leaflet map
+var map = L.map('map').setView([51.505, -0.09], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+   maxZoom: 19,
+}).addTo(map);
+var marker = L.marker([51.505, -0.09]).addTo(map);
+
+if (navigator.geolocation) {
+   navigator.geolocation.getCurrentPosition(function(position) {
+       const lat = position.coords.latitude;
+       const lng = position.coords.longitude;
+
+       map.setView([lat, lng], 13);
+       marker.setLatLng([lat, lng]);
+
+       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+           .then(response => response.json())
+           .then(data => {
+               if (data && data.display_name) {
+                   document.getElementById('location').value = data.display_name;
+               } else {
+                   document.getElementById('location').value = "Unable to retrieve address.";
+               }
+           })
+           .catch(error => {
+               console.error('Error retrieving address:', error);
+               document.getElementById('location').value = "Error retrieving address.";
+           });
+   }, function() {
+       alert("Unable to retrieve your location.");
+   });
+} else {
+   alert("Geolocation is not supported by this browser.");
+}
+
+function addBookDetail() {
+   const row = document.createElement('tr');
+   row.innerHTML = `
+       <td><input type='text' name='bookType[]' placeholder='Book Type' required></td>
+       <td><input type='text' name='subject[]' placeholder='Subject/Category' required></td>
+       <td><input type='text' name='author[]' placeholder='Author Name' required></td>
+       <td><input type='number' name='quantity[]' placeholder='Quantity' min='1' required></td>`;
+   document.getElementById('bookDetailsBody').appendChild(row);
+}
+
+document.getElementById('donationForm').addEventListener('submit', function(event) {
+   event.preventDefault();
+
+   const registrationDate = new Date(document.getElementById('registrationDate').value);
+   const donationUntilDate = new Date(document.getElementById('donationUntilDate').value);
+
+   if (donationUntilDate < registrationDate) { 
+       alert("Donation available until date must be the same or after the registration date.");
+       return;
+   }
+
+   const formData = new FormData(this);
+
+   fetch('donatebooks.php', {
+       method: 'POST',
+       body: formData,
+   })
+   .then(response => response.json())
+   .then(data => {
+       if (data.success) {
+           window.location.href = 'thankyou.html';
+       } else {
+           alert(data.message || "There was an error processing your donation.");
+       }
+   })
+   .catch(error => {
+       console.error('Error:', error);
+       alert("An error occurred: " + error.message);
+   });
+});
+</script>
+
+</body>
+</html>
