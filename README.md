@@ -1,2 +1,2 @@
 # Food-Donation-Platform
-A web platform that enables users to donate surplus food, track donations, and view statistics. Built with PHP, MySQL, HTML, CSS, and JavaScript.
+A web platform focused on food donation while also supporting clothes and book contributions. Built with PHP, MySQL, HTML, CSS, and JavaScript.
