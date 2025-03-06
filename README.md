@@ -39,17 +39,17 @@ A web-based platform that **primarily focuses on food donation**, ensuring surpl
 
 ### **3️⃣ Create the Database**
 
-To set up the database, follow the instructions provided in the `database.sql` file located in the main project folder. This file contains all the necessary queries to create the database and configure the required tables automatically.
+To set up the database, follow the instructions provided in the `sql` file located in the main project folder. This file contains all the necessary queries to create the database and configure the required tables automatically.
 
 ### **Steps:**
 1. Open **phpMyAdmin** in your browser:  
    ```
    http://localhost/phpmyadmin/
    ```
-2. Click on **Import** and select the `database.sql` file from the main project folder.
+2. Click on **Import** and select the `sql` file from the main project folder.
 3. Click **Go** to execute the queries and complete the database setup.
 
-No additional manual steps are required beyond what is provided in the `database.sql` file.
+No additional manual steps are required beyond what is provided in the `sql` file.
 
 ---  
 
@@ -65,6 +65,7 @@ No additional manual steps are required beyond what is provided in the `database
 ---  
 
 ## 📌 Notes  
+- kindly avoid using the css/ folder as it contains experimental files for various scripts.
 - **Ensure XAMPP is running** (Apache & MySQL services should be **green**).  
 - If MySQL gives an error, try restarting XAMPP.  
 - If the site doesn’t load, check the project folder name (`food_donation1`) matches the URL.  
